@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Emotion Recognition Using Speech</title>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <h1>🎙️ Emotion Recognition Using Speech</h1>
+      <p class="subtitle">8th Semester Final Year Project — KLE Technological University</p>
+      <div class="team-banner">
+        <span class="member">👤 Sagar S. Maddi &nbsp;|&nbsp; 12215121</span>
+        <span class="divider">·</span>
+        <span class="member">👤 Charan Kasagani &nbsp;|&nbsp; 12215095</span>
+      </div>
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Detect Emotion from Audio</h2>
+      <p>Upload a <strong>.wav</strong> audio file and our ML model will predict the emotion in the speech.</p>
+    </section>
+
+    <section class="upload-card">
+      <div class="drop-zone" id="dropZone">
+        <p id="dropText">📂 Drag & drop a .wav file here, or click to select</p>
+        <input type="file" id="audioFile" accept=".wav" hidden/>
+      </div>
+
+      <div id="fileInfo" class="file-info hidden"></div>
+
+      <button id="predictBtn" class="btn" disabled>Analyse Emotion</button>
+
+      <div id="result" class="result-box hidden">
+        <p>Detected Emotion:</p>
+        <h2 id="emotionLabel">—</h2>
+      </div>
+
+      <div id="loader" class="loader hidden">Analysing audio...</div>
+      <div id="errorMsg" class="error hidden"></div>
+    </section>
+
+    <section class="info-grid">
+      <div class="info-card">
+        <h3>🧠 Models Used</h3>
+        <p>SVM, MLP, Random Forest, Gradient Boosting, LSTM, GRU</p>
+      </div>
+      <div class="info-card">
+        <h3>🎵 Features Extracted</h3>
+        <p>MFCC, Chromagram, Mel Spectrogram, Contrast, Tonnetz</p>
+      </div>
+      <div class="info-card">
+        <h3>😶 Emotions Detected</h3>
+        <p>Neutral, Happy, Sad, Angry, Fear, Disgust, Calm, Pleasant Surprise, Boredom</p>
+      </div>
+      <div class="info-card">
+        <h3>📦 Datasets</h3>
+        <p>RAVDESS, TESS, EMO-DB, Custom Dataset</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Emotion Recognition Using Speech &copy; 2025 &nbsp;|&nbsp; KLE Technological University</p>
+    <p>Sagar S. Maddi (12215121) &nbsp;&amp;&nbsp; Charan Kasagani (12215095)</p>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
