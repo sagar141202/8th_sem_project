@@ -1,17 +1,16 @@
 import os
 import uuid
+import pickle
 from flask import Flask, render_template, request, jsonify
-from emotion_recognition import EmotionRecognizer
-from sklearn.svm import SVC
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Load model once at startup
-model = SVC()
-rec = EmotionRecognizer(model=model, emotions=['sad', 'neutral', 'happy'], balance=True, verbose=0)
-rec.train()
+# Load pre-trained model
+with open("model.pkl", "rb") as f:
+    rec = pickle.load(f)
+print("Model loaded successfully!")
 
 @app.route('/')
 def index():
