@@ -5,7 +5,6 @@ import librosa
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import gradio as gr
 import tensorflow as tf
 import warnings
@@ -31,9 +30,8 @@ EMO_COLORS = {
     "neutral": "#7F77DD",
     "sad":     "#3b82f6"
 }
-EMO_EMOJI = {"angry": "[ANGRY]", "happy": "[HAPPY]", "neutral": "[NEUTRAL]", "sad": "[SAD]"}
 
-print(f"ready — classes: {enc.classes_}")
+print(f"ready -- classes: {enc.classes_}")
 
 def get_features(y, sr):
     mfccs    = np.mean(librosa.feature.mfcc(y=y, sr=sr, n_mfcc=N_MFCC).T, axis=0)
@@ -62,7 +60,7 @@ def plot_waveform(y, sr, emotion):
     ax.set_xlim(0, len(y)/sr)
     ax.set_xlabel("time (s)", color="#94a3b8", fontsize=11)
     ax.set_ylabel("amplitude", color="#94a3b8", fontsize=11)
-    ax.set_title(f"Waveform  ·  predicted: {emotion.upper()}",
+    ax.set_title(f"Waveform  -  predicted: {emotion.upper()}",
                  color="white", fontsize=13, pad=10, fontweight="normal")
     ax.tick_params(colors="#64748b", labelsize=9)
     ax.spines["top"].set_visible(False)
@@ -123,14 +121,12 @@ def plot_confidence(probs, classes):
 def predict_emotion(audio_path):
     if audio_path is None:
         return None, None, None, "No audio uploaded.", ""
-
     try:
         y, sr = librosa.load(audio_path, sr=TARGET_SR, mono=True)
     except Exception as e:
         return None, None, None, f"Could not load audio: {e}", ""
-
     if len(y) < TARGET_SR * 0.5:
-        return None, None, None, "Audio too short — speak for at least 1 second.", ""
+        return None, None, None, "Audio too short -- speak for at least 1 second.", ""
 
     feat     = get_features(y, sr)
     feat     = scaler.transform(feat.reshape(1, -1))
@@ -139,21 +135,20 @@ def predict_emotion(audio_path):
     pred_idx = np.argmax(probs)
     emotion  = enc.classes_[pred_idx]
     conf     = probs[pred_idx]
-    emoji    = EMO_EMOJI.get(emotion, "")
 
     wave_fig = plot_waveform(y, sr, emotion)
     mel_fig  = plot_mel(y, sr)
     conf_fig = plot_confidence(probs, enc.classes_)
 
     summary = (
-        f"Emotion  :  {emotion.upper()}\n\n"
+        f"Emotion      :  {emotion.upper()}\n\n"
         f"Confidence   :  {conf*100:.1f}%\n"
         f"Duration     :  {len(y)/sr:.2f} s\n"
         f"Sample rate  :  {sr} Hz\n"
         f"Model        :  CNN-LSTM (89.7% acc)"
     )
     breakdown = "\n".join([
-        f"  {c:<10}  {'█' * int(p*20):<20}  {p*100:.1f}%"
+        f"  {c:<10}  {'#' * int(p*20):<20}  {p*100:.1f}%"
         for c, p in sorted(zip(enc.classes_, probs), key=lambda x: -x[1])
     ])
     return wave_fig, mel_fig, conf_fig, summary, breakdown
@@ -176,23 +171,23 @@ with gr.Blocks(
         font=gr.themes.GoogleFont("Inter")
     ),
     css=CSS,
-    title="Emotion Recognition Using Speech — NIT Kurukshetra"
+    title="Emotion Recognition Using Speech -- NIT Kurukshetra"
 ) as demo:
 
-    gr.Markdown("# ��️ Emotion Recognition Using Speech", elem_id="title")
+    gr.Markdown("# Emotion Recognition Using Speech", elem_id="title")
     gr.Markdown(
         "Real-time detection of human emotions from speech using CNN-LSTM deep learning",
         elem_id="subtitle"
     )
     gr.Markdown(
-        "**Sagar S. Maddi** (12215121 · ECE B6) &nbsp;&nbsp;|&nbsp;&nbsp; "
-        "**Charan Kasagani** (12215095 · ECE B5)",
+        "**Sagar S. Maddi** (12215121 - ECE B6) &nbsp;&nbsp;|&nbsp;&nbsp; "
+        "**Charan Kasagani** (12215095 - ECE B5)",
         elem_id="team"
     )
     gr.Markdown(
-        "Mentor: **Dr. Vrinda Gupta** &nbsp;·&nbsp; "
-        "Dept. of Electronics & Communication Engineering &nbsp;·&nbsp; "
-        "**NIT Kurukshetra** &nbsp;·&nbsp; 8th Semester FYP 2025–2026",
+        "Mentor: **Dr. Vrinda Gupta** &nbsp;-&nbsp; "
+        "Dept. of Electronics & Communication Engineering &nbsp;-&nbsp; "
+        "**NIT Kurukshetra** &nbsp;-&nbsp; 8th Semester FYP 2025-2026",
         elem_id="inst"
     )
 
@@ -210,17 +205,17 @@ with gr.Blocks(
             )
             with gr.Accordion("Model & dataset info", open=False):
                 gr.Markdown("""
-**Architecture** — CNN-LSTM hybrid: 2× Conv1D → BatchNorm → MaxPool → LSTM → Dense
+**Architecture** - CNN-LSTM hybrid: 2x Conv1D - BatchNorm - MaxPool - LSTM - Dense
 
-**Features (184-dim)** — MFCC (40) · Chroma (12) · Mel spectrogram (128) · ZCR · Spectral rolloff · RMS energy · Spectral centroid
+**Features (184-dim)** - MFCC (40) - Chroma (12) - Mel spectrogram (128) - ZCR - Spectral rolloff - RMS energy - Spectral centroid
 
-**Training data** — RAVDESS · TESS · EMO-DB · 4× augmentation (stretch · pitch shift · noise)
+**Training data** - RAVDESS - TESS - EMO-DB - 4x augmentation (stretch, pitch shift, noise)
 
-**Performance** — 89.7% test accuracy · 4-class: angry · happy · neutral · sad
+**Performance** - 89.7% test accuracy - 4-class: angry, happy, neutral, sad
                 """)
 
         with gr.Column(scale=1):
-            summary_out   = gr.Textbox(
+            summary_out = gr.Textbox(
                 label="Prediction result",
                 lines=7
             )
@@ -248,9 +243,9 @@ with gr.Blocks(
 
     gr.Markdown("""
 <div class="footer-block">
-Emotion Recognition Using Speech &nbsp;·&nbsp; NIT Kurukshetra &nbsp;·&nbsp; 2025–2026<br>
+Emotion Recognition Using Speech &nbsp;-&nbsp; NIT Kurukshetra &nbsp;-&nbsp; 2025-2026<br>
 Sagar S. Maddi (12215121) &nbsp;&amp;&nbsp; Charan Kasagani (12215095)<br>
-CNN-LSTM · RAVDESS + TESS + EMO-DB · librosa · TensorFlow · Gradio
+CNN-LSTM - RAVDESS + TESS + EMO-DB - librosa - TensorFlow - Gradio
 </div>
 """)
 
