@@ -250,4 +250,4 @@ CNN-LSTM - RAVDESS + TESS + EMO-DB - librosa - TensorFlow - Gradio
 """)
 
 if __name__ == "__main__":
-    demo.launch(share=False)
+    demo.launch(share=True)
