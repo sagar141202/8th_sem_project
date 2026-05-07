@@ -31,7 +31,7 @@ EMO_COLORS = {
     "neutral": "#7F77DD",
     "sad":     "#3b82f6"
 }
-EMO_EMOJI = {"angry": "😠", "happy": "😊", "neutral": "😐", "sad": "😢"}
+EMO_EMOJI = {"angry": "[ANGRY]", "happy": "[HAPPY]", "neutral": "[NEUTRAL]", "sad": "[SAD]"}
 
 print(f"ready — classes: {enc.classes_}")
 
@@ -146,7 +146,7 @@ def predict_emotion(audio_path):
     conf_fig = plot_confidence(probs, enc.classes_)
 
     summary = (
-        f"{emoji}  {emotion.upper()}\n\n"
+        f"Emotion  :  {emotion.upper()}\n\n"
         f"Confidence   :  {conf*100:.1f}%\n"
         f"Duration     :  {len(y)/sr:.2f} s\n"
         f"Sample rate  :  {sr} Hz\n"
